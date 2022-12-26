@@ -1,0 +1,66 @@
+    <div 
+    style=" overflow-y: auto;height: 100%;position: relative;transition: 0.2s;max-width: 250px;">
+    <div  class="">
+        <button id="sidebar-collapse-btn" class="m-0" 
+        style="background-color:transparent;">
+            <i class="bi bi-list"></i>
+        </button>
+    </div>
+    <div class="m-2" >
+        <div class="p-0 d-flex flex-column  justify-content-center align-items-center">
+            <img alt="" src="/static/mwu-logo.png" class="" style="background-color: #ff0000; height: 40px; width: 40px;border-radius: 50%;" />
+            <div class="mt-2" style="width: max-content;">
+                <h6 id="dashboard-title" class="h6 m-0"></h6>
+            </div>
+        </div>
+        <div class="p-1 d-flex flex-column">
+            <button id="nav-to-staff-container-btn" class="btn btn-primary my-2 mb-2 ">Add staff</button>
+            <button id="nav-to-staff-container-btn" class="btn btn-primary my-2 mb-2 ">Add student</button>
+            <!-- <div class="">
+                <button class="btn btn-success  mb-0 ripple" id="program-container-control-btn"> > Program</button>
+                <div id="program-list-container" class="p-1 mt-1" data-collapse="false"
+                style="overflow: hidden;transition: 0.2s;"  >
+                <% userInfo.program.forEach((prg)=>{ %>
+                    <div class="mb-2" id = "<%= prg %>" >
+                        <button id="program-btn" class="btn btn-success my-1 mb-0 mt-0">
+                            <span>> <%= prg %> </span>
+                        </button>
+                        <button id="add-btn" class="ms-1 mb-0">
+                            <i class="bi bi-plus"></i>
+                        </button>
+                        <div class="" id="room-container" data-collapse="false">
+                            <% userInfo.room.forEach(({rooms,program})=>{%>
+                                <% if(program === prg) { %>
+                                    <% rooms.forEach(({id,roomName,routine})=>{ %>
+                                        <div class="m-2 d-flex align-items-center">
+                                            <button id="room-opener" name="<%= id %>" class="d-block room-field-btn">
+                                                <%= roomName %>
+                                            </button>
+                                        </div>
+                                   <% }) %>
+                               <% } %>
+                           <% }) %>
+                        </div>
+                    </div>
+                <% }) %>
+
+                </div>
+            </div> -->
+            <button id="nav-to-profile-btn" class="btn btn-primary my-2 mb-0 ">Profile</button>
+            <script>
+                const dashboardTitle = document.getElementById('dashboard-title')
+                dashboardTitle.innerHTML = window.localStorage.getItem('faculty') + ' Dashboard'
+                const profileBtn = document.getElementById('nav-to-profile-btn')
+                profileBtn.addEventListener('click',()=>{
+                    const dashboardContentContainer = document.getElementById('dashboard-content-container')
+                    let activeContainerId = dashboardContentContainer.dataset.activeContainer
+                    const activeContainer = document.getElementById(activeContainerId + '-container')
+                    activeContainer.hidden = true
+                    dashboardContentContainer.dataset.activeContainer = 'profile'
+                    activeContainerId = dashboardContentContainer.dataset.activeContainer
+                    document.getElementById(activeContainerId + '-container').hidden = false
+                })
+            </script>
+        </div>
+    </div>
+    </div>
