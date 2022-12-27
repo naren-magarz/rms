@@ -1,21 +1,24 @@
 const mongoose = require('mongoose')
 const roomSchema = mongoose.Schema({
-     roomName : {
+     roomname : {
           type : String,
           required : true
      },
-     level : {
-          type : String,
-          required : true
-     },
+     // level : {
+     //      type : mongoose.Types.ObjectId,
+     //      required : true,
+     //      ref : 'level'
+     // },
      program : {
-          type : String,
-          required : true
+          type : mongoose.Types.ObjectId,
+          required : true,
+          ref : 'program'
      },
-     faculty : {
-          type : String,
-          required : true
-     },
+     // faculty : {
+     //      type : mongoose.Types.ObjectId,
+     //      required : true,
+     //      ref : 'faculty'
+     // },
      routine : {
                type : [{
                     day : String,
