@@ -1,10 +1,19 @@
 const mongoose = require('mongoose')
 const staffSchema = mongoose.Schema({
-     name : {
+     username : {
           type : String,
           required : true
      },
      email : {
+          type : String,
+          required : true,
+          unique : true
+     },
+     loggedInAt : {
+          type : Date,
+          default : Date.now
+     },
+     password : {
           type : String,
           required : true
      },
@@ -20,13 +29,23 @@ const staffSchema = mongoose.Schema({
      },
      program : [
           {
-               type : String,
-               required : true
+               type : mongoose.Types.ObjectId,
+               required : true,
+               ref : 'program'
           }
      ],
-     remark : {
-          type : Boolean,
-          default : false
-     }
+     room : [
+          {
+               type : mongoose.Types.ObjectId,
+               required : true,
+               ref : 'room'
+          }
+     ],
+     hod : {
+          type : mongoose.Types.ObjectId,
+          default : null,
+          ref : 'program'
+     },
+
 })
 module.exports.staffModel = mongoose.model('staff',staffSchema)
