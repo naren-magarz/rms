@@ -1,13 +1,14 @@
 const mongoose = require('mongoose')
 
 const studentSchema = mongoose.Schema({
-    name : {
+    username : {
         type : String,
         required : true
     },
     email : {
         type : String,
-        required : true
+        required : true,
+        unique : true
     },
     password : {
         type : String,
@@ -18,21 +19,24 @@ const studentSchema = mongoose.Schema({
         default : Date.now
     },
     level : {
-        type : String,
-        required : true
+        type : mongoose.Types.ObjectId,
+        required : true,
+        ref : 'level'
     },
     faculty : {
-        type : mongoose.Schema.Types.ObjectId,
+        type : mongoose.Types.ObjectId,
         required : true,
         ref : "faculty"
     },
     program : {
-        type : String,
-        required : true
+        type : mongoose.Types.ObjectId,
+        required : true,
+        ref : 'program'
     },
-    class : {
-        type : String,
-        required : true
+    room : {
+        type : mongoose.Types.ObjectId,
+        required : true,
+        ref : 'room'
     }
     
 })
