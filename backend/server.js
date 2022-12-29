@@ -7,8 +7,43 @@ const {roomModel} = require('./db/schema/room')
 require('./db')
 
 
+const {staffCollectionModel} = require('./db/schema/staffcollectionschema')
+const { default: mongoose } = require('mongoose')
+const { servicedirectory } = require('googleapis/build/src/apis/servicedirectory')
 
-app().listen(3000,()=>{
+// staffCollectionModel.insertMany([
+//     {
+//         'email' : 'rajangiri@gmail.com',
+//         'level' : mongoose.Types.ObjectId('6362757dce437d379f2a27c3'),
+//         'faculty' : mongoose.Types.ObjectId('6362780a272870d565a9d399'),
+//         'program' : ['636278c88e881dee768c1a27']
+//     },
+//     {
+//         'email' : 'rabindra@gmail.com',
+//         'level' : mongoose.Types.ObjectId('6362757dce437d379f2a27c3'),
+//         'faculty' : mongoose.Types.ObjectId('6362780a272870d565a9d399'),
+//         'program' : ['636278c88e881dee768c1a27','636278c88e881dee768c1a26']
+//     },
+//     {
+//         'email' : 'mahesh@gmail.com',
+//         'level' : mongoose.Types.ObjectId('6362757dce437d379f2a27c3'),
+//         'faculty' : mongoose.Types.ObjectId('6362780a272870d565a9d399'),
+//         'program' : ['636278c88e881dee768c1a27','636278c88e881dee768c1a28']
+//     },
+//     {
+//         'email' : 'sarad@gmail.com',
+//         'level' : mongoose.Types.ObjectId('6362757dce437d379f2a27c3'),
+//         'faculty' : mongoose.Types.ObjectId('6362780a272870d565a9d399'),
+//         'program' : ['636278c88e881dee768c1a26']
+//     },
+//     {
+//         'email' : 'dhiren@gmail.com',
+//         'level' : mongoose.Types.ObjectId('6362757dce437d379f2a27c3'),
+//         'faculty' : mongoose.Types.ObjectId('6362757dce437d379f2a27c3'),
+//         'program' : ['636278c88e881dee768c1a28']
+//     }
+// ])
+app().listen(process.env,()=>{
     console.log('server is running on port 3000')
 })
 

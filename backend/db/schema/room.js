@@ -4,30 +4,91 @@ const roomSchema = mongoose.Schema({
           type : String,
           required : true
      },
-     // level : {
-     //      type : mongoose.Types.ObjectId,
-     //      required : true,
-     //      ref : 'level'
-     // },
      program : {
           type : mongoose.Types.ObjectId,
           required : true,
           ref : 'program'
      },
-     // faculty : {
-     //      type : mongoose.Types.ObjectId,
-     //      required : true,
-     //      ref : 'faculty'
-     // },
      routine : {
-               type : [{
-                    day : String,
-                    time : String,
-                    subject : String,
-                    staff : String
-               }],
-     
-     }
+          'sun' : {
+               'id' : String,
+               'routine' : [{
+                    'refId' : String,
+                    'subject' : String,
+                    'staff' : String,
+                    'remark' : {
+                         type : Boolean,
+                         default : false
+                    }
+               }]
+          },
+          'mon' : {
+               'id' : String,
+               'routine' : [{
+                    'refId' : String,
+                    'subject' : String,
+                    'staff' : String,
+                    'remark' : {
+                         type : Boolean,
+                         default : false
+                    }
+               }]
+          },
+          'tue' : {
+               'id' : String,
+               'routine' : [{
+                    'refId' : String,
+                    'subject' : String,
+                    'staff' : String,
+                    'remark' : {
+                         type : Boolean,
+                         default : false
+                    }
+               }]
+          },
+          'wed' : {
+               'id' : String,
+               'routine' : [{
+                    'refId' : String,
+                    'subject' : String,
+                    'staff' : String,
+                    'remark' : {
+                         type : Boolean,
+                         default : false
+                    }
+               }]
+          },
+          'thus' : {
+               'id' : String,
+               'routine' : [{
+                    'refId' : String,
+                    'subject' : String,
+                    'staff' : String,
+                    'remark' : {
+                         type : Boolean,
+                         default : false
+                    }
+               }]
+          },
+          'fri' : {
+               'id' : String,
+               'routine' : [{
+                    'refId' : String,
+                    'subject' : String,
+                    'staff' : String,
+                    'remark' : {
+                         type : Boolean,
+                         default : false
+                    }
+               }]
+          },
+
+     },
+     time : [{
+          'id' : String,
+          'startHour' : String,
+          'endHour' : String
+     }]
 })
 
 

@@ -1,0 +1,50 @@
+{
+  "4aeee1f4": {
+    "otp": 292015,
+    "originTime": 1672112198238,
+    "email": "rajangiri@gmail.com",
+    "password": "$2a$12$40uzwcuuyiDqepOfV.PDN.yyCvY1D9vxYCwCbLyMlWaz9kyfe0kmi",
+    "level": "6362757dce437d379f2a27c3",
+    "faculty": "6362780a272870d565a9d399"
+  },
+  "c0e7dcda": {
+    "otp": 248220,
+    "originTime": 1672218323803,
+    "email": "rabindra@gmail.com",
+    "password": "$2a$12$Uwobdgpujsr33eJb25grOuEbdkz9lKD1WsRVDaNI/1QBGuyTtfu3e",
+    "level": "6362757dce437d379f2a27c3",
+    "faculty": "6362780a272870d565a9d399"
+  },
+  "9e6f05ed": {
+    "otp": 899154,
+    "originTime": 1672218618756,
+    "email": "rabindra@gmail.com",
+    "password": "$2a$12$SV1R2hjQNsfbgAFN.PgBuOXmZJtoY7MUbTNs1VJhXntQhduuirECG",
+    "level": "6362757dce437d379f2a27c3",
+    "faculty": "6362780a272870d565a9d399"
+  },
+  "8ac484b4": {
+    "otp": 944396,
+    "originTime": 1672218990772,
+    "email": "rabindra@gmail.com",
+    "password": "$2a$12$d6mBLOu7Ac3E7JJmNTDV7elkJk48eQkTARSbl13OqS7JOMvaOJaEO",
+    "level": "6362757dce437d379f2a27c3",
+    "faculty": "6362780a272870d565a9d399"
+  },
+  "616d24cc": {
+    "otp": 255062,
+    "originTime": 1672219852592,
+    "email": "narenmagarz98@gmail.com",
+    "password": "$2a$12$8Sjjb6KQ2y/WGr5FTV3lq.PszkG.Qh3qTNxZNPoNwsRLVIBcEsfHm",
+    "level": "6362757dce437d379f2a27c3",
+    "faculty": "6362780a272870d565a9d399"
+  },
+  "bf459116": {
+    "otp": 728127,
+    "originTime": 1672220196178,
+    "email": "sudipmallathakuri@gmail.com",
+    "password": "$2a$12$vRT0zxS/aS8ofJmsAiLcxeQHs3irC2Bd1S42GiEsHOAoZ78gaOvy6",
+    "level": "6362757dce437d379f2a27c3",
+    "faculty": "6362780a272870d565a9d399"
+  }
+}
