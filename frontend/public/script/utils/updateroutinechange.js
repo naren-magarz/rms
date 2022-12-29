@@ -1,12 +1,10 @@
 let timer 
 export function updateRoutineField(){
-     console.log(this.value)
-     console.log(this.name)
      console.log(this.dataset)
      clearTimeout(timer)
+     const {refid,oid,roomid} = this.dataset
      timer = setTimeout(() => {
-
-          fetch('/api/room',{
+          fetch(`/api/room?context=${this.name}&id=${refid}&oid=${oid}&value=${this.value}&roomid=${roomid}`,{
                'method' : 'PUT',
                'headers' : {
                     'content-type' : 'application/json;charset=utf-8'
