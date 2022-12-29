@@ -4,10 +4,6 @@ const router = express.Router()
 const apiRouter = express.Router()
 const {registerUser} = require('./handler/registeruser')
 const { loggedInUser } = require('./handler/loggedInUser')
-const { addStaffToDb } = require('./handler/addstafftodb')
-const { readStaffFromDb } = require('./handler/readstafffromdb')
-const { deleteStaffFromDb } = require('./handler/deletestafffromdb')
-const { updateStaffToDb } = require('./handler/updatestafftodb')
 const {createRoom} = require('./handler/createroom')
 const {getRoom} = require('./handler/getroom')
 const { isRequestAuthenticated } = require('../middlewares/isReqAuthenticated')
@@ -27,7 +23,7 @@ apiRouter.put('/updateroutine',isRequestAuthenticated,updateRoutine)
 apiRouter.post('/accountverification',(req,res)=>{
     return res.status(200).json({})
 })
-apiRouter.post('/emailverification',registerUser)
+apiRouter.post('/register',registerUser)
 apiRouter.post('/login',loggedInUser)
 apiRouter.put('/roomtitle',(req,res)=>{
     console.log(req.body)
@@ -35,7 +31,6 @@ apiRouter.put('/roomtitle',(req,res)=>{
 })
 apiRouter.get('/createroom',isRequestAuthenticated,createRoom)
 apiRouter.get('/getroom',getRoom)
-apiRouter.route('/teacher').get(readStaffFromDb).post(addStaffToDb).delete(deleteStaffFromDb).put(updateStaffToDb)
 router.get('/',isRequestAuthenticated,async (req,res)=>{
     try{
         if(req.user === null) return res.redirect('/login')
