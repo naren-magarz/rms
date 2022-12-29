@@ -61,7 +61,6 @@ function createTableHead({time,colLen,roomId}){
      return thead
 }
 function createTableBody(routineData){
-     console.log(routineData.routine,'routine')
      const tbody = document.createElement('tbody')
      for(let i = 0 ; i < 6 ; i++){
           const tr = createRow({...routineData,dayPointer:i})
@@ -73,7 +72,7 @@ function createRow({routine,colLen,roomId,dayPointer}){
      const staff = ['john','ram','shyam','albert','thompson']
      const days = ['sun','mon','tue','wed','thus','fri']
      const tr = document.createElement('tr')
-     tr.setAttribute('id',routine[days[dayPointer]]['id'])
+     tr.setAttribute('data-day',days[dayPointer])
      for(let i = 0 ; i < (colLen + 1) ; i++){
           const td = document.createElement('td')
           td.style = 'border:2px solid red;'
@@ -86,7 +85,6 @@ function createRow({routine,colLen,roomId,dayPointer}){
 
                }
                const subjectField = document.createElement('input')
-               subjectField.setAttribute('id','auto')
                subjectField.setAttribute('data-roomid',roomId)
                subjectField.setAttribute('name','subject')
                subjectField.setAttribute('data-refid',routine[days[dayPointer]]['routine'][i -1].refId)
@@ -95,7 +93,6 @@ function createRow({routine,colLen,roomId,dayPointer}){
                subjectField.style.paddingLeft = '8px'
                subjectField.placeholder = 'subjet'
                const staffSelect = document.createElement('select')
-               staffSelect.setAttribute('id','auto')
                staffSelect.setAttribute('name','staff')
                staffSelect.setAttribute('data-roomid',roomId)
                staffSelect.setAttribute('data-refid',routine[days[dayPointer]]['routine'][i - 1].refId)

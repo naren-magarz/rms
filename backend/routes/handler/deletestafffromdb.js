@@ -1,6 +1,6 @@
-const {staffModel} = require('../db/schema/staffschema')
-const {muLevel} = require('../db/schema/levelschema')
-const {muFaculty} = require('../db/schema/facultyschema')
+const {staffModel} = require('../../db/schema/staffschema')
+const {muLevel} = require('../../db/schema/levelschema')
+const {muFaculty} = require('../../db/schema/facultyschema')
 module.exports.deleteStaffFromDb = async function(req,res){
      try{
           console.log(req.UserInfo)

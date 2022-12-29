@@ -1,5 +1,5 @@
-const {staffModel} = require('../db/schema/staffschema')
-const {facultyModel} = require('../db/schema/facultyschema')
+const {staffModel} = require('../../db/schema/staffschema')
+const {facultyModel} = require('../../db/schema/facultyschema')
 const { default: mongoose } = require('mongoose')
 module.exports.readStaffFromDb = async  function(req,res){
      try{

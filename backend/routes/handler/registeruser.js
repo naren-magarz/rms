@@ -1,15 +1,15 @@
-const emailServer = require('../utils/emailserver')
-const {generateOtp} = require('../utils/generateOTP')
-const {generateHashPswd} = require('../utils/generatehashpswd')
+const emailServer = require('../../utils/emailserver')
+const {generateOtp} = require('../../utils/generateOTP')
+const {generateHashPswd} = require('../../utils/generatehashpswd')
 const dotenv = require('dotenv')
-const { writeUserToJsonFile } = require('../utils/writeusertojsonfile')
-const { staffModel } = require('../db/schema/staffschema')
-const {staffCollectionModel} = require('../db/schema/staffcollectionschema')
-const { studentModel } = require('../db/schema/studentschema')
+const { writeUserToJsonFile } = require('../../utils/writeusertojsonfile')
+const { staffModel } = require('../../db/schema/staffschema')
+const {staffCollectionModel} = require('../../db/schema/staffcollectionschema')
+const { studentModel } = require('../../db/schema/studentschema')
 const { default: mongoose } = require('mongoose')
 dotenv.config()
 
-module.exports.emailVerification = async function(req,res){
+module.exports.registerUser = async function(req,res){
     let debug = console.debug
     try{
             const {username,email,password,level,faculty,userType,program,confirmPassword} = req.body

@@ -1,7 +1,7 @@
-const { createJwt } = require('../utils/createjwt')
-const { isPswdMatched } = require("../utils/checkpswd")
-const {studentModel} = require('../db/schema/studentschema')
-const {staffModel} = require('../db/schema/staffschema')
+const { createJwt } = require('../../utils/createjwt')
+const { isPswdMatched } = require("../../utils/checkpswd")
+const {studentModel} = require('../../db/schema/studentschema')
+const {staffModel} = require('../../db/schema/staffschema')
 module.exports.loggedInUser = async function(req,res){
      try{
           const {email,password,userType} = req.body

@@ -1,6 +1,6 @@
 const { default: mongoose } = require('mongoose')
-const {userModel} = require('../db/schema/room')
-const {roomModel} = require('../db/schema/room')
+const {userModel} = require('../../db/schema/roomschema')
+const {roomModel} = require('../../db/schema/roomschema')
 module.exports.getRoom = async function(req,res){
      try{
           const {roomId} = req.query

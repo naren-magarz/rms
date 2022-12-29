@@ -1,5 +1,5 @@
 const { default: mongoose } = require('mongoose')
-const {roomModel} = require('../db/schema/room')
+const {roomModel} = require('../../db/schema/roomschema')
 const {defaultRoutine, defaultTime} = require('./defaultroutine')
 module.exports.createRoom = async function(req,res){
      try{
