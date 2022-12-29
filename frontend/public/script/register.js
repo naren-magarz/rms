@@ -7,7 +7,7 @@ async function userRegister(ev){
      const {isFormValidate,email,password,levelId,programId,facultyId,confirmPassword,name} = validateUserRegisterForm()
      console.log(isFormValidate)
      if(isFormValidate){
-         await fetch('/api/emailverification',{
+         await fetch('/api/register',{
              'method' : 'POST',
              'headers' : {
                'Content-Type' : 'application/json;charset=utf-8'  
