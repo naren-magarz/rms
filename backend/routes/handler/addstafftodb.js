@@ -1,5 +1,5 @@
 const { default: mongoose } = require('mongoose')
-const {staffModel} = require('../db/schema/staffschema')
+const {staffModel} = require('../../db/schema/staffschema')
 module.exports.addStaffToDb = async function(req,res){
      try{
           console.log(req.userInfo)

@@ -2,140 +2,32 @@ const express = require('express')
 const {fetchMuInfo} = require('../utils/fetchmuinfo')
 const router = express.Router()
 const apiRouter = express.Router()
-const {emailVerification} = require('../middlewares/emailverification')
-const { loggedInUser } = require('./loggedInUser')
-const { isReqUserVerifiedForRegister } = require('./middlewares/isrequserverifiedforregister')
-const { registerVerifiedAdmin } = require('./registerverifiedadmin')
-const { addStaffToDb } = require('./addstafftodb')
-const { readStaffFromDb } = require('./readstafffromdb')
-const { deleteStaffFromDb } = require('./deletestafffromdb')
-const { updateStaffToDb } = require('./updatestafftodb')
-const {createRoom} = require('../middlewares/createroom')
-const {getRoom} = require('../middlewares/getroom')
+const {registerUser} = require('./handler/registeruser')
+const { loggedInUser } = require('./handler/loggedInUser')
+const { addStaffToDb } = require('./handler/addstafftodb')
+const { readStaffFromDb } = require('./handler/readstafffromdb')
+const { deleteStaffFromDb } = require('./handler/deletestafffromdb')
+const { updateStaffToDb } = require('./handler/updatestafftodb')
+const {createRoom} = require('./handler/createroom')
+const {getRoom} = require('./handler/getroom')
 const { isRequestAuthenticated } = require('../middlewares/isReqAuthenticated')
-const { adminModel } = require('../db/schema/adminschema')
-const { staffModel } = require('../db/schema/staffschema')
-const { studentModel } = require('../db/schema/studentschema')
-const {roomModel} = require('../db/schema/room')
+const {roomModel} = require('../db/schema/roomschema')
 const { programModel } = require('../db/schema/programschema')
 const { default: mongoose } = require('mongoose')
 const { levelModel } = require('../db/schema/levelschema')
 const { facultyModel } = require('../db/schema/facultyschema')
-const fs = require('fs')
-const path = require('path')
-const app = require('../app')
+const { updateRoutine } = require('./handler/updateroutine')
 let muInfo = null
 async function setMuInfo(){
     muInfo = await fetchMuInfo()
     console.log(muInfo,'muinfo')    
 }
 setMuInfo()
-apiRouter.put('/room',isRequestAuthenticated,async (req,res)=>{
-    if(req.user) {
-        console.log(req.query)
-        console.log(req.user)
-        
-        const ans = await roomModel.findOneAndUpdate({
-            '_id' : mongoose.Types.ObjectId(req.query.roomid),
-            'routine.sun.routine' : {
-                '$elemMatch' : {
-                    '_id' : mongoose.Types.ObjectId(req.query.oid)
-                }
-            }
-        },
-        {
-            '$set' : {
-                'routine.sun.routine.$.subject' : "done"
-            }
-        })
-        console.log(ans,'ans')
-        // const result = await roomModel.aggregate([
-        //     {
-        //         '$match' : {
-        //             '_id' : mongoose.Types.ObjectId(req.query.roomid)
-        //         }
-        //     },
-        //     {
-        //      '$addFields' : {
-        //         'routine.sun.routine' : {
-        //             '$map' : {
-        //                 input : '$routine.sun.routine',
-        //                 as : 'item',
-        //                 in : {
-        //                     $cond : [
-        //                         {
-        //                             $eq : ['$$item.refId',req.query.id]
-        //                         },
-        //                         {
-        //                         '$mergeObjects' : [
-        //                             '$$item',
-        //                             {
-        //                                 'subject' : 'finally updated yr!'
-        //                             }
-        //                         ]
-        //                     },
-        //                     '$$item'
-        //                     ]
-        //                 }
-        //             }
-        //         }
-        //      }
-        //     },
-        // ])
-        // console.log(result[0]['routine']['sun']['routine'])
-        // const result = await roomModel.updateOne({
-        //     '_id' : mongoose.Types.ObjectId(req.query.roomid)
-        // },{
-        //     '$push' : {
-        //         'routine.sun.routine' : {
-        //             'refId' : req.query.id,
-        //             'subject' : 'subject is updated!'
-        //         }
-        //     }
-        // })
-        // console.log(result,'result is updated')
-        // const result = await roomModel.aggregate([
-        //     {
-        //         '$match' : {
-        //             '_id' : mongoose.Types.ObjectId(req.query.id)
-        //         }
-        //     },
-        //     {
-        //             '$set'  : {
-        //                 [req.query.context] : req.query.roomname
-        //             }
-        //     }
-        // ]).exec()
-        // console.log(result,'result')
-        return res.status(201).send('okay')
-    } else return res.status(401).json({'error' : 'unauthorized access'})
-    // if(req.user){
-    //     console.log(req.body)
-    //     const result = roomModel.aggregate([
-    //         {
-    //             '$match' : {
-    //                 '_id' : mongoose.Types.ObjectId(req.body.roomId)
-    //             }
-    //         },
-    //         {
-    //             '$project' : {
-    //                 'routine' : {
-    //                     '$push' : {
-    //                         '$each' : []
-    //                     }
-    //                 }
-    //             }
-    //         }
-    //     ])
-    //     console.log(result)
-    //     return res.status(201).send('okay')
-    // } else return res.status(401).send('unauthorized access')
-})
+apiRouter.put('/updateroutine',isRequestAuthenticated,updateRoutine)
 apiRouter.post('/accountverification',(req,res)=>{
     return res.status(200).json({})
 })
-apiRouter.post('/emailverification',emailVerification)
-apiRouter.post('/register',isReqUserVerifiedForRegister,registerVerifiedAdmin)
+apiRouter.post('/emailverification',registerUser)
 apiRouter.post('/login',loggedInUser)
 apiRouter.put('/roomtitle',(req,res)=>{
     console.log(req.body)
