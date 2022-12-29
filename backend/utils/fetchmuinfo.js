@@ -9,15 +9,18 @@ module.exports.fetchMuInfo = async function(){
         let muInfo = {}
         for(let i = 0 ; i < level.length ; i++){
             muInfo[level[i].name] = {}
+            muInfo[level[i].name]['id'] = level[i].id
             for(let j = 0 ; j < faculty.length ; j++){
                 if(level[i].id === faculty[j].level.toString()){
-                    muInfo[level[i].name][faculty[j].name] = []
+                    muInfo[level[i].name][faculty[j].name] = {}
+                    muInfo[level[i].name][faculty[j].name]['id'] = faculty[j].id
+                    muInfo[level[i].name][faculty[j].name]['program'] = {}
                     for(let k = 0 ; k < program.length ; k++){
                         if(faculty[j].id === program[k].faculty.toString()){
-                            muInfo[level[i].name][faculty[j].name].push(program[k].program)
+                            muInfo[level[i].name][faculty[j].name]['program'][program[k].program] = {}
+                            muInfo[level[i].name][faculty[j].name]['program'][program[k].program]['id'] = program[k].id
                         }
                     }
-                    
                 }
             }
         }

@@ -1,13 +1,9 @@
 const bycrpt = require('bcryptjs')
-module.exports.checkPswd = function(plainText,hashPswd){
-     return new Promise((resolve,reject)=>{
-          bycrpt.compare(plainText,hashPswd,(err,pswd)=>{
-               if(err) {
-                    console.error(err)
-                    return reject(err.message)
-               } 
-               return resolve(pswd)
-          })
-          return bycrpt.compare(plainText,hashPswd)
-     })
+module.exports.isPswdMatched = async function(textPswd,hashPswd){
+     try{
+          return await bycrpt.compare(textPswd,hashPswd)
+     }catch(err){
+          console.error(err)
+          return null
+     }
 }

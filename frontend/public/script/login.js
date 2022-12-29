@@ -1,6 +1,5 @@
-import {emailValidation,passwordValidation} from './validation.js'
-
-function adminLogin(ev){
+import {emailValidation,passwordValidation} from './utils/validation.js'
+function userLogin(ev){
     ev.preventDefault()
     const email = document.getElementById('email').value
     const isEmailValid = emailValidation(email)
@@ -23,6 +22,7 @@ function adminLogin(ev){
                 'content-type' : 'application/json;charset=utf-8'
             },
             'body' : JSON.stringify({
+                'userType' : document.getElementById('student-checkbox').checked ? 'student' : document.getElementById('staff-checkbox').checked ? 'staff' : null,
                 email,
                 password
             })
@@ -36,7 +36,7 @@ function adminLogin(ev){
 }
 
 
-document.getElementById('admin-login-form').addEventListener('submit',adminLogin)
+document.getElementById('admin-login-form').addEventListener('submit',userLogin)
 
 
 function controlPasswordText(target){

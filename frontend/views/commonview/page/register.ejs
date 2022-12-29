@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script type="module" src="script/utils.js"  async defer>
-    </script>
+    <script type="module" src="script/register.js" async defer></script>
+    <script  src="script/utils/showandhidepassword.js" async defer></script>
     <style>
         option{
             font-size: 14px;
@@ -17,9 +17,14 @@
 </head>
 <body>
     <div class="container-fluid border border-primary register-container d-flex align-items-center justify-content-center">
-        <form id="admin-register-form" class="border border-mute border-1 p-4" style="border-radius:6px ;max-width: 400px; ">
+        <form id="user-register-form" class="border border-mute border-1 p-4" style="border-radius:6px ;max-width: 400px; ">
             <div class="mb-4">
                 <h3 class="h3">Register</h3>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label fw-bold text-muted" >Username</label>
+                <input id="username" type="text" class="form-control" name="username" >
+                <span id="username-span" class="text-danger" hidden>name is not valid!</span>
             </div>
             <div class="mb-3">
                 <label for="email" class="form-label fw-bold text-muted" >Email address</label>
@@ -28,12 +33,12 @@
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label fw-bold text-muted">Password</label>
-                <input id="password" type="password" class="form-control" name="password" >
+                <input id="password-field" type="password" class="form-control" name="password" >
                 <span id="password-span" hidden class="text-danger">password is not valid!</span>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label fw-bold text-muted">Confirm password</label>
-                <input id="confirm-password" type="password" class="form-control" name="password" >
+                <input id="confirm-password-field" type="password" class="form-control" name="password" >
                 <span id="confirm-password-span" hidden class="text-danger">password does not match!</span>
             </div>
             <div class="form-check mb-3">
@@ -55,18 +60,21 @@
                     <select id="level-select" class="form-select">
                         <option selected>Choose level</option>
                     </select>
+                <span id="level-span" hidden class="text-danger">Level?</span>
                   </div>
                   <div class="ms-1">
                     <select id="faculty-select" class="form-select">
                         <option selected>Choose faculty</option>
                     </select>
+                <span id="faculty-span" hidden class="text-danger">Faculty?</span>
                   </div>
                </div>
                <div class="mb-3 d-flex">
                    <div id="program-list" class="">
                      <select id="program-select" class="form-select">
-                          <option>choose program</option>
+                          <option selected>choose program</option>
                      </select>
+                <span id="program-span" hidden class="text-danger">Program?</span>
                    </div>
               </div>
             <button type="submit" class="btn btn-primary">Register</button>
@@ -93,6 +101,7 @@
         const levelSelectContainer = document.getElementById('level-select')
         for(let level in levels){
             const levelOption = document.createElement('option')
+            levelOption.name = levels[level]['id']
             levelOption.value = level
             levelOption.innerText = level
             levelSelectContainer.appendChild(levelOption)
@@ -104,19 +113,19 @@
             const defaultOption = ev.target.children[0]
             for(;;){
                 const facultySelectContainerChild = facultySelectContainer.lastElementChild
-                console.log(facultySelectContainerChild,'p')
                 if(!facultySelectContainerChild) break
                 else facultySelectContainer.removeChild(facultySelectContainerChild)
             }
             if(defaultOption.value !== ev.target.value){
                 const choosenLevel = ev.target.value.trim()
-                console.log(levels[choosenLevel])
                 for(let faculty in levels[choosenLevel]){
-                    console.log(faculty)
-                    const facultyOption = document.createElement('option')
-                    facultyOption.value = faculty,
-                    facultyOption.innerText = faculty    
-                    facultySelectContainer.appendChild(facultyOption)
+                    if(faculty !== 'id'){
+                        const facultyOption = document.createElement('option')
+                        facultyOption.name = levels[choosenLevel][faculty]['id']
+                        facultyOption.value = faculty,
+                        facultyOption.innerText = faculty    
+                        facultySelectContainer.appendChild(facultyOption)
+                    }
                 }
             } else {
                 const defaultFacultyOption = document.createElement('option')
@@ -143,11 +152,16 @@
                 option.innerHTML = 'Choose program'
                 programSelectBox.append(option)
             }
-            for(let program of data){
-                const option = document.createElement('option')
-                option.value = program
-                option.innerHTML = program
-                programSelectBox.append(option)
+            for(let program in data){
+                if(program !== 'id'){
+                    Object.keys(data['program']).forEach((program)=>{
+                        const option = document.createElement('option')
+                        option.name = data['program'][program]['id']
+                        option.value = program
+                        option.innerHTML = program
+                        programSelectBox.append(option)
+                    })
+                }
             }
         }
 
