@@ -2,69 +2,104 @@ const express = require('express')
 const {fetchMuInfo} = require('../utils/fetchmuinfo')
 const router = express.Router()
 const apiRouter = express.Router()
-const {emailVerification} = require('../middlewares/emailverification')
-const { loggedInUser } = require('./loggedInUser')
-const { isReqUserVerifiedForRegister } = require('./middlewares/isrequserverifiedforregister')
-const { registerVerifiedAdmin } = require('./registerverifiedadmin')
-const { addStaffToDb } = require('./addstafftodb')
-const { readStaffFromDb } = require('./readstafffromdb')
-const { deleteStaffFromDb } = require('./deletestafffromdb')
-const { updateStaffToDb } = require('./updatestafftodb')
-const {createRoom} = require('../middlewares/createroom')
-const {getRoom} = require('../middlewares/getroom')
+const {registerUser} = require('./handler/registeruser')
+const { loggedInUser } = require('./handler/loggedInUser')
+const {createRoom} = require('./handler/createroom')
+const {getRoom} = require('./handler/getroom')
 const { isRequestAuthenticated } = require('../middlewares/isReqAuthenticated')
-const { adminModel } = require('../db/schema/adminschema')
-const { staffModel } = require('../db/schema/staffschema')
-const { studentModel } = require('../db/schema/studentschema')
-const {roomModel} = require('../db/schema/room')
+const {roomModel} = require('../db/schema/roomschema')
 const { programModel } = require('../db/schema/programschema')
 const { default: mongoose } = require('mongoose')
 const { levelModel } = require('../db/schema/levelschema')
 const { facultyModel } = require('../db/schema/facultyschema')
+const { updateRoutine } = require('./handler/updateroutine')
 let muInfo = null
 async function setMuInfo(){
     muInfo = await fetchMuInfo()
     console.log(muInfo,'muinfo')    
 }
 setMuInfo()
-apiRouter.put('/room',isRequestAuthenticated,(req,res)=>{
-    if(req.user){
-        console.log(req.body)
-        const result = roomModel.aggregate([
-            {
-                '$match' : {
-                    '_id' : mongoose.Types.ObjectId(req.body.roomId)
-                }
-            },
-            {
-                '$project' : {
-                    'routine' : {
-                        '$push' : {
-                            '$each' : []
-                        }
-                    }
-                }
-            }
-        ])
-        console.log(result)
-        return res.status(201).send('okay')
-    } else return res.status(401).send('unauthorized access')
+apiRouter.put('/updateroutine',isRequestAuthenticated,updateRoutine)
+apiRouter.post('/accountverification',(req,res)=>{
+    return res.status(200).json({})
 })
-apiRouter.post('/emailverification',emailVerification)
-apiRouter.post('/register',isReqUserVerifiedForRegister,registerVerifiedAdmin)
+apiRouter.post('/register',registerUser)
 apiRouter.post('/login',loggedInUser)
 apiRouter.put('/roomtitle',(req,res)=>{
     console.log(req.body)
     res.status(200).send('okay')
 })
-apiRouter.post('/createroom',createRoom)
+apiRouter.get('/createroom',isRequestAuthenticated,createRoom)
 apiRouter.get('/getroom',getRoom)
-apiRouter.route('/teacher').get(readStaffFromDb).post(addStaffToDb).delete(deleteStaffFromDb).put(updateStaffToDb)
 router.get('/',isRequestAuthenticated,async (req,res)=>{
-    if(req.user === null) return res.redirect('/admin/login')
-    const userInfo = await readUserInfo(req.user)
-    console.log(userInfo)
-    return res.render('adminview/page/admindashboard.ejs',{userInfo})
+    try{
+        if(req.user === null) return res.redirect('/login')
+        // const userInfo = await readUserInfo(req.user)
+        // console.log(userInfo,'userinfo')
+        console.log(req.user,'req.user')
+        const {userType} = req.user
+        const testData = {
+            'level' : 'bachelor',
+            'faculty' : 'Engineering',
+            'username' : 'dhirendra kumar yadav',
+            'hod' : '1234567890',
+            'rooms' : {
+                'computer' : {
+                    'id' : '1234567890',
+                    'room' : [
+                        {
+                            'roomId' : '12345678903',
+                            'roomName' : 'semester3'
+                        },
+                        {
+                            'roomId' : '12345678904',
+                            'roomName' : 'semester4'
+                        },
+                        {
+                            'roomId' : '12345678905',
+                            'roomName' : 'semester5'
+                        },
+                        {
+                            'roomId' : '12345678906',
+                            'roomName' : 'semester6'
+                        },
+                        {
+                            'roomId' : '12345678907',
+                            'roomName' : 'semester7'
+                        }
+                    ]
+                },
+                'civil' : {
+                    'id' : '1234567891',
+                    'room' : [
+                        {
+                            'roomId' : '12345678911',
+                            'roomName' : 'semester1'
+                        }
+                    ]
+                },
+                'hydro' : {
+                    'id' : '1234567892',
+                    'room' : [
+                        {
+                            'roomId' : '12345678921',
+                            'roomName' : 'semester1'
+                        }
+                    ]
+                }
+            }
+        }
+        if(userType === 'student') return res.render('studentview/page/home.ejs')
+        else if(userType === 'staff'){
+            if(req.user.hod) return res.render('staffview/page/hodhome.ejs',{testData})
+            else return res.render('staffview/page/home.ejs')
+        } 
+        else return res.render('commonview/page/login.ejs')
+    }
+    catch(err){
+        console.error(err)
+        return res.status(500).send('internal server error')
+    }
 })
 
 async function readUserInfo(userInfo){
@@ -118,21 +153,27 @@ const room = await roomModel.aggregate([
     }
     return payload
 }
+router.get('/accountverification',(req,res)=>{
+    console.log(req.query)
+    const {id} = req.query
+    return res.render('commonview/page/otpverification.ejs')
+})
+
 router.get('/login',(req,res)=>{
     return res.render('commonview/page/login.ejs')
 })
 router.get('/register',(req,res)=>{
     return res.render('commonview/page/register.ejs',{muInfo})
 })
-router.get('/admin/register',isRequestAuthenticated,(req,res)=>{
-    if(req.user === null) return res.render('page/adminregister',{muInfo})
-    else return res.redirect('/')
+// router.get('/admin/register',isRequestAuthenticated,(req,res)=>{
+//     if(req.user === null) return res.render('page/adminregister',{muInfo})
+//     else return res.redirect('/')
 
-})
-router.get('/admin/login',isRequestAuthenticated,(req,res)=>{
-    if(req.user === null) return res.render('page/adminlogin')
-    else return res.redirect('/')
-})
+// })
+// router.get('/admin/login',isRequestAuthenticated,(req,res)=>{
+//     if(req.user === null) return res.render('page/adminlogin')
+//     else return res.redirect('/')
+// })
 router.get('/recoverpassword',(req,res)=>{
     res.render('commonview/page/recoverpassword.ejs')
 })

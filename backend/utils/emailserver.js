@@ -24,5 +24,6 @@ module.exports = async function(){
     }
     catch(err){
         console.error(err)
+        return null
     }
 }

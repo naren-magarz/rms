@@ -5,7 +5,7 @@ const programSchema = mongoose.Schema({
         required : true
     },
     faculty : {
-        type : mongoose.Schema.Types.ObjectId,
+        type : mongoose.Types.ObjectId,
         required : true,
         ref : 'faculty'
      }
