@@ -7,7 +7,9 @@
      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css" integrity="sha384-xeJqLiuOvjUBq3iGOjvSQSIlwrpqjSHXpduPd6rQpuiM3f5/ijby8pCsnbu5S81n" crossorigin="anonymous">
      <script type="module" src="script/addroom.js" async defer></script>
-     <script src="script/utils/changecontainer.js" async defer></script>
+     <script src="script/utils/todayactivity.js" type="module" async defer></script>
+     <script src="script/handlestaffabsent.js" async defer></script>
+     <script type="module" src="script/utils/changecontainer.js" async defer></script>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" async defer></script>
      <title>Hod home</title>
      <style>
@@ -19,16 +21,15 @@
                height: inherit;
                display: flex;
                width: inherit;
-
           }
      </style>
 </head>
 <body class="border border-primary">
-          <%- include('../../commonview/component/sidebar.ejs',{testData}) %>
+          <%- include('../../commonview/component/sidebar.ejs',{data}) %>
           <%- include('../component/maincontainer.ejs') %>
 </body>
 <script>
-     const data = '<%- JSON.stringify(testData) %>'
+     const data = '<%- JSON.stringify(data) %>'
      const userInfo = JSON.parse(data)
      window.sessionStorage.setItem('level',userInfo.level)
      window.sessionStorage.setItem('faculty',userInfo.faculty)

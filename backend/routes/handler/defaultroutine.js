@@ -21,7 +21,9 @@ for(let i = 0 ; i < 6 ;i++){
           defaultRoutine[days[i]]['routine'].push({
                'refId' : defaultTime[j]['id'],
                'subject' : '',
-               'staff' : ''
+               'staff' : {
+                    
+               }
           })
      }
 }

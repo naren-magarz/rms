@@ -14,10 +14,6 @@ const studentSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    loggedInAt : {
-        type : Date,
-        default : Date.now
-    },
     level : {
         type : mongoose.Types.ObjectId,
         required : true,
@@ -30,12 +26,10 @@ const studentSchema = mongoose.Schema({
     },
     program : {
         type : mongoose.Types.ObjectId,
-        required : true,
-        ref : 'program'
+        ref : 'program',
     },
     room : {
         type : mongoose.Types.ObjectId,
-        required : true,
         ref : 'room'
     }
     

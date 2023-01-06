@@ -5,8 +5,8 @@ module.exports.isRequestAuthenticated = function(req,res,next){
           if(token){
                const result = verifyToken(token)
                if(result.status === 'valid'){
-                    const {id,email,level,faculty,userType,room,program,hod} = result.decoded
-                    req.user = {id,email,level,faculty,userType,room,program,hod}
+                    const {id,email,level,faculty,userRole,room,program,hod,userName} = result.decoded
+                    req.user = {id,email,level,faculty,userRole,room,program,hod,userName}
                     return next()
                }
           }

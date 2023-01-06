@@ -2,37 +2,38 @@ const { createJwt } = require('../../utils/createjwt')
 const { isPswdMatched } = require("../../utils/checkpswd")
 const {studentModel} = require('../../db/schema/studentschema')
 const {staffModel} = require('../../db/schema/staffschema')
-module.exports.loggedInUser = async function(req,res){
+module.exports.loginUser = async function(req,res){
      try{
-          const {email,password,userType} = req.body
+          const {email,password,userRole} = req.body
           console.debug(req.body)
-          if(userType){
+          if(userRole){
                const userModel = ({
                     'staff' : staffModel,
                     'student' : studentModel
-               })[userType]
+               })[userRole]
                if(email && password){
                          const result = await userModel.findOne({email:email.trim()}).exec()
                          console.debug(result,'result')
                          if(result){
                               const pswdStatus = await isPswdMatched(password,result.password)
                               if(pswdStatus){
-                                   const extraInfo = userType === 'staff' ? {
+                                   const extraInfo = userRole === 'staff' ? {
                                         'hod' : result.hod?.toString(),
                                         'program' : result.program.map((program)=>program.toString()),
                                         'room' : result.room.map((room)=>room.toString())
                                    } : {
                                         'program' : [result.program.toString()],
-                                        'room' : [result.room.toString()]
+                                        'room' : [result.room?.toString()]
                                    }
                                    const cookieInfo = {
                                         'id' : result._id.toString(),
-                                        'userType' : userType,
+                                        'userRole' : userRole,
+                                        'userName' : result.username, 
                                          email,
                                         'level' : result.level.toString(),
                                         'faculty' : result.faculty.toString(),
                                         'program' : [result.program.toString()],
-                                        'room' : [result.room.toString()],
+                                        'room' : [result.room?.toString()],
                                         ...extraInfo
                                    }
                                    console.log(cookieInfo,'cookieinfo')

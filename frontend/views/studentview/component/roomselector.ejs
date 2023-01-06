@@ -1,0 +1,24 @@
+<div>
+     <div>
+          <% for(let i in data.rooms) { %>
+               <select 
+               data-userrole="student"
+               data-type="room-container"
+               data-name="change-container"
+               style="width: 150px;"
+               class="form-select">
+                    <% data.rooms[i]['room'].forEach(({roomId,roomName,select})=>{ %>
+                         <option
+                         data-roomid = "<%= roomId %>"
+                         <% if(select) { %>
+                              selected
+                         <% } %>
+                         >
+                              <%= roomName %>
+                         </option>
+                    <% }) %>
+               <% } %>
+               </select>
+     </div>
+
+</div>

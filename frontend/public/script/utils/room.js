@@ -1,4 +1,5 @@
 import {updateRoutineField} from './updateroutinechange.js'
+import { updateTime } from './updatetime.js'
 const roomTitleField = document.getElementById('room-title-field')
 let timer 
 roomTitleField.addEventListener('input',function(){
@@ -9,28 +10,27 @@ roomTitleField.addEventListener('input',function(){
      else syncField.innerHTML = this.value
      const roomName = this.value
      timer = setTimeout(function(){
-          fetch(`/api/room?context=roomname&id=${roomId}&roomname=${roomName}`,{
+          fetch(`/api/updateroomname?roomId=${roomId}&roomName=${roomName}`,{
                'method' : 'PUT',
                'headers' : {
                     'content-type' : 'application/json;charset=utf-8'
-               },
-               'body' : JSON.stringify({})
+               }
           })
      },500)
 })
 
 
 
-export function createTable(room,roomId){
-     const {routine,time} =  room
+export function createTable(room,roomId,hid,programId){
+     const {routine,time,staffs} =  room
      const colLen = time.length
      const table = document.createElement('table')
-     const tableHead = createTableHead({time,colLen,roomId})
-     const tableBody = createTableBody({routine,colLen,roomId})
+     const tableHead = createTableHead({time,colLen,roomId,hid,programId})
+     const tableBody = createTableBody({routine,colLen,roomId,staffs,hid,programId})
      table.append(tableHead,tableBody)
      return table
 }
-function createTableHead({time,colLen,roomId}){
+function createTableHead({time,colLen,roomId,hid,programId}){
      const thead = document.createElement('thead')
      const tr = document.createElement('tr')
      for(let i = 0 ; i < (colLen + 1 ) ; i ++){
@@ -41,17 +41,25 @@ function createTableHead({time,colLen,roomId}){
                const hourPickerWrapper = document.createElement('div')
                hourPickerWrapper.setAttribute('class','d-flex')
                const startHour = document.createElement('input')
+               if(hid !== programId) startHour.disabled = true
                startHour.value = time[i-1]['startHour']
                startHour.setAttribute('data-id',time[i-1]['id'])
                startHour.setAttribute('data-oid',time[i-1]['oid'])
-               startHour.setAttribute('id','auto')
+               startHour.setAttribute('type','time')
+               startHour.setAttribute('data-type','startHour')
+               startHour.setAttribute('name','time')
+               startHour.setAttribute('data-roomid',roomId)
+               startHour.addEventListener('change',updateTime)
                const endHour = document.createElement('input')
-               endHour.setAttribute('id','auto')
+               if(hid !== programId) endHour.disabled = true
                endHour.value = time[i-1]['endHour']
                endHour.setAttribute('data-id',time[i-1]['id'])
                endHour.setAttribute('data-oid',time[i-1]['oid'])
-               startHour.setAttribute('type','time')
-               endHour.setAttribute('type','time')     
+               endHour.setAttribute('type','time')
+               endHour.setAttribute('name','time') 
+               endHour.setAttribute('data-type','endHour')
+               endHour.setAttribute('data-roomid',roomId)
+               endHour.addEventListener('change',updateTime)
                hourPickerWrapper.append(startHour,endHour)  
                th.append(hourPickerWrapper)
           }
@@ -68,8 +76,15 @@ function createTableBody(routineData){
      }
      return tbody
 }
-function createRow({routine,colLen,roomId,dayPointer}){
-     const staff = ['john','ram','shyam','albert','thompson']
+function createRow({
+     routine,
+     colLen,
+     roomId,
+     dayPointer,
+     staffs,
+     hid,
+     programId
+}){
      const days = ['sun','mon','tue','wed','thus','fri']
      const tr = document.createElement('tr')
      tr.setAttribute('data-day',days[dayPointer])
@@ -85,6 +100,8 @@ function createRow({routine,colLen,roomId,dayPointer}){
 
                }
                const subjectField = document.createElement('input')
+               if(hid !== programId) subjectField.disabled = true
+               subjectField.value = routine[days[dayPointer]]['routine'][i-1].subject
                subjectField.setAttribute('data-roomid',roomId)
                subjectField.setAttribute('name','subject')
                subjectField.setAttribute('data-refid',routine[days[dayPointer]]['routine'][i -1].refId)
@@ -93,16 +110,30 @@ function createRow({routine,colLen,roomId,dayPointer}){
                subjectField.style.paddingLeft = '8px'
                subjectField.placeholder = 'subjet'
                const staffSelect = document.createElement('select')
+               if(hid !== programId) staffSelect.disabled = true
                staffSelect.setAttribute('name','staff')
                staffSelect.setAttribute('data-roomid',roomId)
                staffSelect.setAttribute('data-refid',routine[days[dayPointer]]['routine'][i - 1].refId)
                staffSelect.setAttribute('data-oid',routine[days[dayPointer]]['routine'][i- 1].oid)
                subjectField.addEventListener('input',updateRoutineField)
-               staffSelect.addEventListener('change',updateRoutineField)
+               const defaultStaffSelectOption = document.createElement('option')
+               staffSelect.append(defaultStaffSelectOption)
+               defaultStaffSelectOption.value = 'choose staff'
+               defaultStaffSelectOption.innerHTML = 'choose staff'
                staffSelect.style = "border:none;outline:none;"
-               for(let i = 0 ; i < staff.length ; i++){
-                    staffSelect.append(createStaffOption(staff[i]))
+               for(let j = 0 ; j < staffs.length ; j++){
+                    staffSelect.append(createStaffOption(staffs[j]))
                }
+               const selectedOption = routine[days[dayPointer]]['routine'][i - 1].staff
+               if(!selectedOption.id && selectedOption.staffName){
+                    staffSelect.value = 'choose staff'
+               }
+               else if(selectedOption.id && selectedOption.staffName){
+                    staffSelect.value = selectedOption.staffName
+                    const previousSelectedOptionId = staffSelect.options[staffSelect.selectedIndex].name
+                    staffSelect.setAttribute('data-prevstaffid',previousSelectedOptionId)
+               }
+               staffSelect.addEventListener('change',updateRoutineField)
                div.setAttribute('class','d-flex flex-column')
                div.append(subjectField,staffSelect)
                td.append(div)
@@ -111,10 +142,12 @@ function createRow({routine,colLen,roomId,dayPointer}){
      }
      return tr
 }
-function createStaffOption(staff){
+function createStaffOption({id,staffName}){
      const option = document.createElement('option')
-     option.value = staff
-     option.innerHTML = staff
+     option.value = staffName
+     option.id = id
+     option.name = id
+     option.innerHTML = staffName
      return option
 }
 
