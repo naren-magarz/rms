@@ -5,7 +5,6 @@ const {staffModel} = require('../../db/schema/staffschema')
 module.exports.loginUser = async function(req,res){
      try{
           const {email,password,userRole} = req.body
-          console.debug(req.body)
           if(userRole){
                const userModel = ({
                     'staff' : staffModel,
@@ -13,7 +12,6 @@ module.exports.loginUser = async function(req,res){
                })[userRole]
                if(email && password){
                          const result = await userModel.findOne({email:email.trim()}).exec()
-                         console.debug(result,'result')
                          if(result){
                               const pswdStatus = await isPswdMatched(password,result.password)
                               if(pswdStatus){
@@ -36,7 +34,6 @@ module.exports.loginUser = async function(req,res){
                                         'room' : [result.room?.toString()],
                                         ...extraInfo
                                    }
-                                   console.log(cookieInfo,'cookieinfo')
                                    const token = createJwt(cookieInfo)
                                    if(token.status === 'okay'){
                                         res.cookie('token',token.encoded,{

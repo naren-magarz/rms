@@ -1,0 +1,27 @@
+<div class="">
+     <button  
+     style="width: 150px;text-align: left;"
+     id="logout-btn" class="btn btn-danger">
+          <span>
+               Log out
+          </span>
+     </button>
+</div>
+<script>
+     const logoutBtn = document.getElementById('logout-btn')
+     console.log(logoutBtn)
+     if(logoutBtn){
+          logoutBtn.addEventListener('click',logoutuser)
+          function logoutuser(){
+               fetch('/api/logout',{
+                    'method' : 'POST'
+               }).then(res=>{
+                    if(res.status === 200){
+                         window.location.href = '/login'
+                    }
+               }).catch(err=>{
+                    console.error(err)
+               })
+          }
+     }
+</script>

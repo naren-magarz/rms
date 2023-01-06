@@ -87,6 +87,7 @@ async function writeUserAndSendEmail({
         program
     })
     if(verificationCodeInfo) {
+        console.log(verificationCodeInfo,'verificationcodeinfo')
         const mailSender = await emailServer()
         mailSender.sendMail({
             from : process.env.SENDER,

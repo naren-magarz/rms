@@ -1,6 +1,8 @@
 const {connect,connection} = require('mongoose')
-connect('mongodb://localhost/rms')
-// connect('mongodb+srv://sudip:3rKqEKbWFRJoKc0p@cluster0.oey8rzt.mongodb.net/?retryWrites=true&w=majority')
+// connect('mongodb://localhost/rms')
+const dbPassword = 'k6EqpCxjF0ocvhwK'
+const dbUrl = `mongodb+srv://groupf:${dbPassword}@cluster0.yk28wcj.mongodb.net/?retryWrites=true&w=majority`
+connect(dbUrl)
 let db = connection
 db.on('error',(err)=>{
     console.error(err)
