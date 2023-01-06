@@ -30,3 +30,5 @@ const staffCollectionSchema = mongoose.Schema({
 })
 
 module.exports.staffCollectionModel = mongoose.model('staffcollection',staffCollectionSchema)
+
+

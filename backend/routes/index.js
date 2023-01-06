@@ -64,10 +64,6 @@ apiRouter.post('/accountverification',handleAccountVerification)
 apiRouter.get('/sendcode',resendVerificationCode)
 apiRouter.post('/register',handleUserRegisteration)
 apiRouter.post('/login',loginUser)
-apiRouter.put('/roomtitle',(req,res)=>{
-    console.log(req.body)
-    res.status(200).send('okay')
-})
 apiRouter.get('/createroom',isRequestAuthenticated,createRoom)
 apiRouter.get('/getroom',getRoom)
 router.get('/',isRequestAuthenticated,async (req,res)=>{
@@ -108,13 +104,11 @@ router.get('/',isRequestAuthenticated,async (req,res)=>{
                     })
                     if(room.id === studentData.room?.toString() || (trackRoomLen === roomData.length && !isRoomAlreadySelected)){
                         data['todayActivity']['time'] = room['time']
-                        console.log(room['routine'][today],'today')
                         data['todayActivity']['routine'] = [...room['routine'][today]['routine']]
                         isRoomAlreadySelected = true
                     }
                     trackRoomLen++
                 }
-                console.log(data['todayActivity']['routine'][0]['routine'],'data')
                 return res.render('studentview/page/home.ejs',{data})
             }
             else if(userRole === 'staff'){
@@ -175,7 +169,6 @@ router.get('/',isRequestAuthenticated,async (req,res)=>{
                             const staffId = r['staff']['id']?.toString()
                             if(staffId === req.user.id && !trackTimeId.includes(staffId)){
                                 for(let t of roomInfo['time']){
-                                    console.log(t,'t')
                                     if(t.id === r['refId'] ){
                                         data['todayActivity']['time'].push({
                                             'startHour' : t['startHour'],
@@ -183,16 +176,15 @@ router.get('/',isRequestAuthenticated,async (req,res)=>{
                                         })
                                     }
                                 }
-                                data['todayActivity']['routine'].push({
-                                    'subject' : roomInfo['subject'],
-                                    'roomId' : roomInfo['id'],
-                                    'programId' : roomInfo['program'].toString(),
-                                    'staff' : roomInfo['staff']['staffName']
-                                })
+                                    data['todayActivity']['routine'].push({
+                                        'subject' : r['subject'],
+                                        'roomId' : roomInfo['id'],
+                                        'programId' : roomInfo['program'].toString(),
+                                        'staff' : r['staff']['staffName']
+                                    })
                             }
                         }
                     }
-            console.log(data,'data')
             if(req.user.hod) return res.render('staffview/page/hodhome.ejs',{data})
             else return res.render('staffview/page/home.ejs',{data})
         } 
@@ -219,15 +211,25 @@ router.get('/accountverification',async (req,res)=>{
     } else return res.send(error)
 })
 
-router.get('/login',(req,res)=>{
-    return res.render('commonview/page/login.ejs')
+router.get('/login',isRequestAuthenticated,(req,res)=>{
+    if(req.user) return res.redirect('/')
+    else return res.render('commonview/page/login.ejs')
 })
-router.get('/register',(req,res)=>{
-    return res.render('commonview/page/register.ejs',{muInfo})
+router.get('/register',isRequestAuthenticated,(req,res)=>{
+    if(req.user) return res.redirect('/')
+    else return res.render('commonview/page/register.ejs',{muInfo})
 })
 router.get('/recoverpassword',(req,res)=>{
     res.render('commonview/page/recoverpassword.ejs')
 })
+
+apiRouter.post('/logout',isRequestAuthenticated,(req,res)=>{
+    if(req.user){
+        res.clearCookie('token')
+        return res.status(200).send('logout')
+    }else return res.status(401).send('logout failed')
+})
+
 module.exports = {
     router,apiRouter
 }
