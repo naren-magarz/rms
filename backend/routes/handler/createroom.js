@@ -1,5 +1,6 @@
 const { default: mongoose } = require('mongoose')
 const {roomModel} = require('../../db/schema/roomschema')
+const {staffModel} = require('../../db/schema/staffschema')
 const {defaultRoutine, defaultTime} = require('./defaultroutine')
 module.exports.createRoom = async function(req,res){
      try{
@@ -22,6 +23,20 @@ module.exports.createRoom = async function(req,res){
                          'oid' : _id.toString() 
                     }
                }),
+               'staffs' : (await staffModel.aggregate([
+                    {
+                         '$match' : {
+                              'faculty' : mongoose.Types.ObjectId(req.user.faculty)
+                         }
+                    },
+                    {
+                         '$project' : {
+                              '_id' : 0,
+                              'id' : {'$toString' : '$_id'},
+                              'staffName' : '$username',
+                         }
+                    }
+               ]))
           }
           const routine = {}
           const days = ['sun','mon','tue','wed','thus','fri']

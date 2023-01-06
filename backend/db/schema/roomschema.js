@@ -15,7 +15,15 @@ const roomSchema = mongoose.Schema({
                'routine' : [{
                     'refId' : String,
                     'subject' : String,
-                    'staff' : String,
+                    'staff' : {
+                         'id' : {
+                              type : mongoose.Types.ObjectId,
+                              'ref' : 'staff',
+                         },
+                         'staffName' : String,
+                         default : {}
+
+                    },
                     'remark' : {
                          type : Boolean,
                          default : false
@@ -27,7 +35,15 @@ const roomSchema = mongoose.Schema({
                'routine' : [{
                     'refId' : String,
                     'subject' : String,
-                    'staff' : String,
+                    'staff' :  {
+                         'id' : {
+                              type : mongoose.Types.ObjectId,
+                              'ref' : 'staff',
+                         },
+                         'staffName' : String,
+                         default : {}
+
+                    },
                     'remark' : {
                          type : Boolean,
                          default : false
@@ -39,7 +55,15 @@ const roomSchema = mongoose.Schema({
                'routine' : [{
                     'refId' : String,
                     'subject' : String,
-                    'staff' : String,
+                    'staff' :  {
+                         'id' : {
+                              type : mongoose.Types.ObjectId,
+                              'ref' : 'staff',
+                         },
+                         'staffName' : String,
+                         default : {}
+
+                    },
                     'remark' : {
                          type : Boolean,
                          default : false
@@ -51,7 +75,15 @@ const roomSchema = mongoose.Schema({
                'routine' : [{
                     'refId' : String,
                     'subject' : String,
-                    'staff' : String,
+                    'staff' :  {
+                         'id' : {
+                              type : mongoose.Types.ObjectId,
+                              'ref' : 'staff',
+                         },
+                         'staffName' : String,
+                         default : {}
+
+                    },
                     'remark' : {
                          type : Boolean,
                          default : false
@@ -63,7 +95,14 @@ const roomSchema = mongoose.Schema({
                'routine' : [{
                     'refId' : String,
                     'subject' : String,
-                    'staff' : String,
+                    'staff' :  {
+                         'id' : {
+                              type : mongoose.Types.ObjectId,
+                              'ref' : 'staff',
+                         },
+                         'staffName' : String,
+                         default : {}
+                    },
                     'remark' : {
                          type : Boolean,
                          default : false
@@ -75,7 +114,16 @@ const roomSchema = mongoose.Schema({
                'routine' : [{
                     'refId' : String,
                     'subject' : String,
-                    'staff' : String,
+                    'staff' :  {
+                         'id' : {
+                              type : mongoose.Types.ObjectId,
+                              'ref' : 'staff',
+                         },
+                         'staffName' : String,
+                         default : {}
+
+
+                    },
                     'remark' : {
                          type : Boolean,
                          default : false

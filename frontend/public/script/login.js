@@ -22,7 +22,7 @@ function userLogin(ev){
                 'content-type' : 'application/json;charset=utf-8'
             },
             'body' : JSON.stringify({
-                'userType' : document.getElementById('student-checkbox').checked ? 'student' : document.getElementById('staff-checkbox').checked ? 'staff' : null,
+                'userRole' : document.getElementById('student-checkbox').checked ? 'student' : document.getElementById('staff-checkbox').checked ? 'staff' : null,
                 email,
                 password
             })

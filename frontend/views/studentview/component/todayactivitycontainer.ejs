@@ -24,19 +24,12 @@ class="border border-primary p-2"
                </thead>
                <tbody>
                     <tr>
-                    <% data.todayActivity.routine.forEach(({subject,staff,roomId,programId})=>{ %>
+                    <% data.todayActivity.routine.forEach(({subject,staff})=>{ %>
                          <td>
                               <div class="border border-mute">
-                                   <input
-                                   data-subject="<%= subject%>"
-                                   data-staffname="<%= staff %>"
-                                   data-roomid = "<%= roomId %>"
-                                   data-programid = "<%= programId %>"
-                                   id="absent-checkbox"
-                                   checked type="checkbox" >
                                    <%= subject %>
                                    <br>
-                                   <%= staff %>
+                                   <%= staff.staffName %>
                               </div>
                          </td>
                     <% }) %>

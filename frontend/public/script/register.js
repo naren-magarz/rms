@@ -13,7 +13,7 @@ async function userRegister(ev){
                'Content-Type' : 'application/json;charset=utf-8'  
              },
              'body' : JSON.stringify({
-                    'userType' : document.getElementById('student-checkbox').checked ? 'student' : document.getElementById('staff-checkbox').checked ? 'staff' : null ,
+                    'userRole' : document.getElementById('student-checkbox').checked ? 'student' : document.getElementById('staff-checkbox').checked ? 'staff' : null ,
                     'username' : name,
                     email,
                     password,
@@ -23,15 +23,11 @@ async function userRegister(ev){
                     'program' : document.getElementById('student-checkbox').checked ? programId : null
              })
          }).then(async res=>{
-             const {status} = res
-             const {data} = await  res.json()
-             const {id,msg} = data
-             console.log(id,msg)
-             if(status === 200 && id && msg){
-                 otpId = setOtpId(id)
-                 this.hidden = true
-                 document.getElementById('code-confirmation-form').hidden = false
-             }
+            if(res.status === 200){
+                const data = await res.json()
+                console.log(data)
+                window.location.href = `http://localhost:3000/accountverification?id=${data.id}`
+            }
          }).catch(err=>{
              console.error(err)
          })

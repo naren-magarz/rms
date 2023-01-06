@@ -28,13 +28,13 @@
                    <h3 class="h3">Account verification</h3>
                </div>
                <div class="mb-3">
-                   <label for="code" class="form-label">Code</label>
-                   <input id="confirmation-code-field" name="code" class="form-control">
-                   <span hidden id="code-span" class="mb-3 text-danger">Code?</span>
-                   <span hidden id="confirmation-code-span" class="mb-3 text-danger">code does not match!</span>
+                   <label for="verification-code" class="form-label">Verification code</label>
+                   <input id="verification-code-field" name="verification-code" class="form-control">
+                   <span hidden id="verification-code-span" class="mb-3 text-danger">Verification Code?</span>
+                   <span hidden id="verification-code-span" class="mb-3 text-danger">code does not match!</span>
                </div> 
    
-               <button class="btn btn-secondary">Send it again</button>    
+               <button id="resend-verification-code-btn" class="btn btn-secondary">Send it again</button>    
                <button type="submit" class="btn btn-primary">Submit</button>
            </form>
      </div>

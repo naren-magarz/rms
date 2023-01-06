@@ -9,10 +9,6 @@ const staffSchema = mongoose.Schema({
           required : true,
           unique : true
      },
-     loggedInAt : {
-          type : Date,
-          default : Date.now
-     },
      password : {
           type : String,
           required : true
@@ -36,9 +32,14 @@ const staffSchema = mongoose.Schema({
      ],
      room : [
           {
-               type : mongoose.Types.ObjectId,
-               required : true,
-               ref : 'room'
+              'id' : {
+                   type : mongoose.Types.ObjectId,
+                   ref : 'room'
+              },
+              'counter' : {
+               type : Number,
+               default: 0
+              }
           }
      ],
      hod : {
