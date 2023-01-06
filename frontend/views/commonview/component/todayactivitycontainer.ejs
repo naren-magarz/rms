@@ -1,9 +1,14 @@
 <div 
 id="today-activity-container"
 style="overflow: auto;"
-class="border border-primary p-2"
+class=" p-2"
 >
      <div>
+          <% if(data.todayActivity.routine.length === 0){ %>
+               <p>
+                    Not activity today
+               </p>
+          <% } %>
           <table class="table table-primary table-separated">
                <thead>
                     <tr>

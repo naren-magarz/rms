@@ -1,10 +1,8 @@
 import {createTable} from './room.js'
-import { getTodayActivity } from './todayactivity.js'
 document.querySelectorAll('[data-name="change-container"]').forEach((btn)=>{
      btn.addEventListener('click',changeContainer)
 })
 export function changeContainer(){
-     console.log(this.dataset)
      const roomNameField = document.getElementById('room-title-field')
      roomNameField.setAttribute('name',this.dataset.roomid)
      const {type} = this.dataset
@@ -14,14 +12,8 @@ export function changeContainer(){
      const currentActiveContainer = document.getElementById(activeContainerId)
      currentActiveContainer.hidden = true
      const newActiveContainer = document.getElementById(type)
-     newActiveContainer.hidden = false
-     if(type === 'today-activity-container'){
-          const container = document.getElementById(type)
-          if(container.children.length > 0) {
-               container.removeChild(container.firstElementChild)
-          }
-          getTodayActivity()
-     } else if(type === 'room-container' && this.dataset.new !== 'true'){
+     newActiveContainer.hidden = false 
+     if(type === 'room-container' && this.dataset.new !== 'true'){
           fetch(`/api/room?id=${this.dataset.roomid}`).then(async res=>{
                if(res.status === 200){
                     const room = await res.json()
